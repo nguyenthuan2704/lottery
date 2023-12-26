@@ -46,7 +46,7 @@ Nếu phải monitor performance của ứng dụng xổ số, tôi sẽ track n
 8. Số lượng kết nối đến cơ sở dữ liệu (Database connections):
     - database_connections: Đếm số lượng kết nối đến cơ sở dữ liệu, nếu ứng dụng sử dụng cơ sở dữ liệu.
 9. Sự hoạt động của các thành phần hệ thống khác (External services):
-- Đo lường thời gian gọi tới các dịch vụ bên ngoài, đảm bảo rằng chúng hoạt động đúng cách.
+    - Đo lường thời gian gọi tới các dịch vụ bên ngoài, đảm bảo rằng chúng hoạt động đúng cách.
 10. Lưu lượng mạng (Network traffic):
     - http_request_bytes: Đo lượng dữ liệu đang được truyền qua mạng.
       
