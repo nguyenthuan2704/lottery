@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3030:3030"
+    depends_on:
+      - db
+    environment:
+      # DB_CONN: "root:Admin@123@tcp(db:3301)/Lottery"
+      DB_CONN: "root:Admin123@tcp(db:3301)/Lottery?charset=utf8mb4&parseTime=True&loc=Local"
+      PROMETHEUS_ENDPOINT: app:3030/metrics
+
+  db:
+    image: mysql:latest
+    #build:
+      #context: .
+      #dockerfile: Dockerfile-mysql
+    restart: unless-stopped
+    environment:
+        MYSQL_ROOT_PASSWORD: Admin123
+        MYSQL_DATABASE: Lottery
+    ports:
+      - "3301:3306"
+    volumes:
+      - ./database/backup-database:/var/lib/mysql
+      - ./database/Lottery.sql:/docker-entrypoint-initdb.d/dump.sql
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin_password
+    depends_on:
+      - prometheus
+
+volumes:
+  mysql_data:
