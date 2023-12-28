@@ -14,7 +14,6 @@ import (
 	"log"
 	"math/big"
 	"net/http"
-	"os"
 	"strconv"
 	"sync"
 	"time"
@@ -50,8 +49,7 @@ var userBetTimes = make(map[int]time.Time)
 var mutex sync.Mutex
 
 func main() {
-	dsn := os.Getenv("DB_CONN")
-	/*dsn := "root:Admin@123@tcp(localhost:3301)/Lottery?charset=utf8mb4&parseTime=True&loc=Local"*/
+	dsn := "root:lotto@tcp(db:3306)/vietlott?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
